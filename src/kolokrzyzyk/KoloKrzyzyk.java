@@ -19,6 +19,7 @@ public class KoloKrzyzyk {
     public static char[] tab = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
     public static Scanner input = new Scanner(System.in);
     public static boolean znak = true;
+    static int ruch = 1;
 
     public static void wypiszTablice() {
         System.out.println("--------------");
@@ -39,7 +40,7 @@ public class KoloKrzyzyk {
                 || (tab[3] == tab[6] && tab[6] == tab[9] && tab[3] != ' ')
                 || (tab[1] == tab[5] && tab[5] == tab[9] && tab[1] != ' ')
                 || (tab[3] == tab[5] && tab[5] == tab[7] && tab[3] != ' ')) {
-            if (znak) {
+            if (znak == false) {
                 System.out.println("Wygrałeś graczu");
             } else {
                 System.out.println("Wygrał komputer ");
@@ -53,7 +54,7 @@ public class KoloKrzyzyk {
             System.out.println("Remis !");
             return true;
         }
-        znak =!znak;
+        znak = !znak;
         return false;
     }
 
@@ -73,142 +74,139 @@ public class KoloKrzyzyk {
     }
 
     public static void Komputer() {
+        if (ruch == 1) {
+            if (tab[5] == ' ') {
+                tab[5] = 'X';
+            } else if (tab[5] == 'O' && tab[1] == ' ' && tab[3] == ' ' && tab[7] == ' ' && tab[9] == ' ') {
+                int[] rogi = {1, 3, 7, 9};
+                Random generator = new Random();
+                int pole = rogi[generator.nextInt(4)];
+                tab[pole] = 'X';
+            }
+            ruch++;
+            System.out.println("" + ruch);
+        } else if (ruch > 1) {
+            //------------------------------------------------------------------------ Wygrana
+            for (int i = 1; i < 4; i = i + 3) {
 
-        for (int i = 1; i < 4; i = i + 3) {
+                if (tab[i] == 'X' && tab[i + 1] == 'X' && tab[i + 2] == ' ') {
+                    tab[i + 2] = 'X';
+                    return;
+                }
+                if (tab[i] == 'X' && tab[i + 2] == 'X' && tab[i + 1] == ' ') {
+                    tab[i + 1] = 'X';
+                    return;
+                }
+                if (tab[i + 2] == 'X' && tab[i + 1] == 'X' && tab[i] == ' ') {
+                    tab[i + 1] = 'X';
+                    return;
+                }
+                if (tab[i] == 'X' && tab[i + 3] == 'X' && tab[i + 6] == ' ') {
+                    tab[i + 6] = 'X';
+                    return;
+                }
+                if (tab[i] == 'X' && tab[i + 6] == 'X' && tab[i + 3] == ' ') {
+                    tab[i + 3] = 'X';
+                    return;
+                }
+                if (tab[i + 6] == 'X' && tab[i + 3] == 'X' && tab[i] == ' ') {
+                    tab[i] = 'X';
+                    return;
+                }
+            }  //------------------------------------------------------------------- Wygrana - przekątne
+            if (tab[1] == 'X' && tab[5] == 'X' && tab[9] == ' ') {
+                tab[9] = 'X';
+                return;
+            }
+            if (tab[1] == 'X' && tab[9] == 'X' && tab[5] == ' ') {
+                tab[5] = 'X';
+                return;
+            }
+            if (tab[5] == 'X' && tab[9] == 'X' && tab[1] == ' ') {
+                tab[1] = 'X';
+                return;
+            }
+            if (tab[3] == 'X' && tab[5] == 'X' && tab[7] == ' ') {
+                tab[7] = 'X';
+                return;
+            }
+            if (tab[3] == 'X' && tab[7] == 'X' && tab[5] == ' ') {
+                tab[5] = 'X';
+                return;
+            }
+            if (tab[5] == 'X' && tab[7] == 'X' && tab[3] == ' ') {
+                tab[3] = 'X';
+                return;
+            } //--------------------------------------------------------------------------- Blokowanie
+            for (int i = 1; i < 4; i = i + 3) {
 
-            if (tab[i] == tab[i + 1] && tab[i] == 'X' && tab[i + 2] == ' ') {
-                tab[i + 2] = 'X';
+                if (tab[i] == 'O' && tab[i + 1] == 'O' && tab[i + 2] == ' ') {
+                    tab[i + 2] = 'X';
+                    return;
+                }
+                if (tab[i] == 'O' && tab[i + 2] == 'O' && tab[i + 1] == ' ') {
+                    tab[i + 1] = 'X';
+                    return;
+                }
+                if (tab[i + 2] == 'O' && tab[i + 1] == 'O' && tab[i] == ' ') {
+                    tab[i + 1] = 'X';
+                    return;
+                }
+                if (tab[i] == 'O' && tab[i + 3] == 'O' && tab[i + 6] == ' ') {
+                    tab[i + 6] = 'X';
+                    return;
+                }
+                if (tab[i] == 'O' && tab[i + 6] == 'O' && tab[i + 3] == ' ') {
+                    tab[i + 3] = 'X';
+                    return;
+                }
+                if (tab[i + 6] == 'O' && tab[i + 3] == 'O' && tab[i] == ' ') {
+                    tab[i] = 'X';
+                    return;
+                }
+            } // ---------------------------------------------------------------------- Blokowanie - przekątne
+            if (tab[1] == 'O' && tab[5] == 'O' && tab[9] == ' ') {
+                tab[9] = 'X';
+                return;
+            }
+            if (tab[1] == 'O' && tab[9] == 'O' && tab[5] == ' ') {
+                tab[5] = 'X';
+                return;
+            }
+            if (tab[5] == 'O' && tab[9] == 'O' && tab[1] == ' ') {
+                tab[1] = 'X';
+                return;
+            }
+            if (tab[3] == 'O' && tab[5] == 'O' && tab[7] == ' ') {
+                tab[7] = 'X';
+                return;
+            }
+            if (tab[5] == 'O' && tab[7] == 'O' && tab[3] == ' ') {
+                tab[3] = 'X';
+                return;
+            }
+            if (tab[3] == 'O' && tab[7] == 'O' && tab[7] == ' ') {
+                tab[7] = 'X';
                 return;
             }
 
-            if (tab[i] == tab[i + 2] && tab[i] == 'X' && tab[i + 1] == ' ') {
-                tab[i + 1] = 'X';
-                return;
-            }
-
-            if (tab[i + 2] == tab[i + 1] && tab[i + 1] == 'X' && tab[i] == ' ') {
-                tab[i + 1] = 'X';
-                return;
-            }
-
-            if (tab[i] == tab[i + 3] && tab[i] == 'X' && tab[i + 6] == ' ') {
-                tab[i + 6] = 'X';
-                return;
-            }
-
-            if (tab[i] == tab[i + 6] && tab[i] == 'X' && tab[i + 3] == ' ') {
-                tab[i + 3] = 'X';
-                return;
-            }
-
-            if (tab[i + 6] == tab[i + 3] && tab[i + 3] == 'X' && tab[i] == ' ') {
-                tab[i] = 'X';
-                return;
-            }
-       
-        }
-        //------------------------------------------------------------------------ Przekątne
-        if (tab[1] == tab[5] && tab[1] == 'X' && tab[9] == ' ') {
-            tab[9] = 'X';
-            return;
-        }
-
-        if (tab[1] == tab[9] && tab[1] == 'X' && tab[5] == ' ') {
-            tab[5] = 'X';
-            return;
-        }
-
-        if (tab[5] == tab[9] && tab[5] == 'X' && tab[1] == ' ') {
-            tab[1] = 'X';
-            return;
-        }
-
-        if (tab[3] == tab[5] && tab[3] == 'X' && tab[7] == ' ') {
-            tab[7] = 'X';
-            return;
-        }
-
-        if (tab[3] == tab[7] && tab[3] == 'X' && tab[5] == ' ') {
-            tab[5] = 'X';
-            return;
-        }
-
-        if (tab[5] == tab[7] && tab[5] == 'X' && tab[3] == ' ') {
-            tab[3] = 'X';
-            return;
-        }
-
-        //---------------------------------------------------------------------- Blokowanie
-        for (int i = 1; i < 4; i = i + 3) {
-
-            if (tab[i] == tab[i + 1] && tab[i] == 'O' && tab[i + 2] == ' ') {
-                tab[i + 2] = 'X';
-                return;
-            }
-            if (tab[i] == tab[i + 2] && tab[i] == 'O' && tab[i + 1] == ' ') {
-                tab[i + 1] = 'X';
-                return;
-            }
-            if (tab[i + 2] == tab[i + 1] && tab[i + 1] == 'O' && tab[i] == ' ') {
-                tab[i + 1] = 'X';
-                return;
-            }
-            if (tab[i] == tab[i + 3] && tab[i] == 'O' && tab[i + 6] == ' ') {
-                tab[i + 6] = 'X';
-                return;
-            }
-            if (tab[i] == tab[i + 6] && tab[i] == 'O' && tab[i + 3] == ' ') {
-                tab[i + 3] = 'X';
-                return;
-            }
-            if (tab[i + 6] == tab[i + 3] && tab[i + 3] == 'O' && tab[i] == ' ') {
-                tab[i] = 'X';
-                return;
+            boolean koniec = false;
+            while (koniec == false) {
+                Random random = new Random();
+                int poleK = random.nextInt(9) + 1;
+                if (tab[poleK] == ' ') {
+                    tab[poleK] = 'X';
+                    koniec = true;
+                }
             }
         }
-
-        if (tab[1] == tab[5] && tab[1] == 'O' && tab[9] == ' ') {
-            tab[9] = 'X';
-            return;
-        }
-        if (tab[1] == tab[9] && tab[1] == 'O' && tab[5] == ' ') {
-            tab[5] = 'X';
-            return;
-        }
-        if (tab[5] == tab[9] && tab[5] == 'O' && tab[1] == ' ') {
-            tab[1] = 'X';
-            return;
-        }
-        if (tab[3] == tab[5] && tab[3] == 'O' && tab[7] == ' ') {
-            tab[7] = 'X';
-            return;
-        }
-        if (tab[5] == tab[7] && tab[5] == 'O' && tab[3] == ' ') {
-            tab[3] = 'X';
-            return;
-        }
-        if (tab[3] == tab[7] && tab[3] == 'O' && tab[7] == ' ') {
-            tab[7] = 'X';
-            return;
-        } 
-        
-        else {
-        boolean koniec = false;
-        Random random = new Random();
-        while (koniec == false) {
-            int poleK = random.nextInt(9) + 1;
-            if (tab[poleK] == ' ') {
-                tab[poleK] = 'X';
-                koniec = true;
-            }
-        }
-    }}
+    }
 
     public static void main(String[] args) {
 
         while (sprawdzWynik() == false) {
             wypiszTablice();
-            if (znak) {
+            if (znak == true) {
                 Komputer();
             } else {
                 Gracz();
